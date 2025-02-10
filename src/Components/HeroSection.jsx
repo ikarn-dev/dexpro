@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const HeroSection = () => {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const title = "Decentralized\nExchange\nProtocol";
   const lines = title.split("\n");
+
+  useEffect(() => {
+    const videoElement = document.createElement('video');
+    videoElement.src = '/videos/video-2.mp4';
+    videoElement.onloadeddata = () => setIsVideoLoaded(true);
+  }, []);
 
   const buttonVariants = {
     initial: { opacity: 0, x: 50 },
@@ -17,17 +24,24 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
-      {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover"
-      >
-        <source src="/videos/video-2.mp4" type="video/mp4" />
-      </video>
+    <section className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-black to-gray-900">
+      {/* Video Background with Fallback */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        {isVideoLoaded ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            poster="/images/hero-fallback.jpg"
+          >
+            <source src="/videos/video-2.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div className="absolute top-0 left-0 w-full h-full bg-black/60" />
+        )}
+      </div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40" />
