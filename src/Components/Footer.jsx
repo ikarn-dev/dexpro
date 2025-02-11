@@ -1,87 +1,112 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Github, Twitter, Linkedin, Facebook } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const socialLinks = [
+    { icon: <Github className="w-5 h-5" />, href: "#" },
+    { icon: <Twitter className="w-5 h-5" />, href: "#" },
+    { icon: <Linkedin className="w-5 h-5" />, href: "#" },
+    { icon: <Facebook className="w-5 h-5" />, href: "#" }
+  ];
+
+  const footerLinks = [
+    {
+      title: "Product",
+      links: ["Features", "Security", "Roadmap", "Pricing"]
+    },
+    {
+      title: "Company",
+      links: ["About", "Careers", "Blog", "Press"]
+    },
+    {
+      title: "Resources",
+      links: ["Documentation", "Support", "API", "Status"]
+    },
+    {
+      title: "Legal",
+      links: ["Privacy", "Terms", "Cookies", "Licenses"]
+    }
+  ];
 
   return (
-    <footer className="bg-black text-white py-12">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Company Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h3 className="text-2xl font-bold mb-4">CryptoDEX</h3>
-          <p className="text-gray-400">Revolutionizing decentralized trading with cutting-edge blockchain technology.</p>
-        </motion.div>
-
-        {/* Quick Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <h4 className="text-xl font-semibold mb-4">Quick Links</h4>
-          <ul className="space-y-2">
-            <li><a href="#home" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
-            <li><a href="#services" className="text-gray-400 hover:text-white transition-colors">Services</a></li>
-            <li><a href="#about" className="text-gray-400 hover:text-white transition-colors">About</a></li>
-            <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
-          </ul>
-        </motion.div>
-
-        {/* Services */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <h4 className="text-xl font-semibold mb-4">Services</h4>
-          <ul className="space-y-2">
-            <li><a href="#trading" className="text-gray-400 hover:text-white transition-colors">DEX Trading</a></li>
-            <li><a href="#consulting" className="text-gray-400 hover:text-white transition-colors">Crypto Consulting</a></li>
-            <li><a href="#blockchain" className="text-gray-400 hover:text-white transition-colors">Blockchain Solutions</a></li>
-            <li><a href="#security" className="text-gray-400 hover:text-white transition-colors">Security Audits</a></li>
-          </ul>
-        </motion.div>
-
-        {/* Newsletter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <h4 className="text-xl font-semibold mb-4">Stay Updated</h4>
-          <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+    <footer className="bg-black text-white">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-8">
+          {/* Brand Section */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
             >
-              Subscribe
-            </motion.button>
-          </form>
+              <h3 className="text-2xl font-bold mb-4">DEX Protocol</h3>
+              <p className="text-gray-400 mb-6">
+                Building the future of decentralized trading, one block at a time.
+              </p>
+              <div className="flex space-x-4">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    {social.icon}
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Links Sections */}
+          {footerLinks.map((section, sectionIndex) => (
+            <motion.div
+              key={section.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: sectionIndex * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <h4 className="text-lg font-semibold mb-4">{section.title}</h4>
+              <ul className="space-y-2">
+                {section.links.map((link, linkIndex) => (
+                  <li key={linkIndex}>
+                    <a
+                      href="#"
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Bottom Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="pt-8 mt-8 border-t border-gray-800 text-center text-gray-400"
+        >
+          <p>© 2025 DEXPRO Protocol. All rights reserved.</p>
+        </motion.div>
+        <motion.div 
+          className="text-center text-white/80"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          Made with <span className="text-red-500 animate-pulse">♥</span> by Karan
         </motion.div>
       </div>
-
-      {/* Copyright */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="border-t border-gray-800 mt-8 pt-6 text-center"
-      >
-        <p className="text-gray-400">
-          © {currentYear} CryptoDEX. All Rights Reserved.
-        </p>
-      </motion.div>
     </footer>
   );
 };

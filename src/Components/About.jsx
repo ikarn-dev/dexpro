@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const About = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const sectionRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ['20%', '-20%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
 
   useEffect(() => {
     const videoElement = document.createElement('video');
@@ -11,9 +21,12 @@ const About = () => {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center bg-gradient-to-b from-gray-900 to-black">
+    <section ref={sectionRef} className="relative w-full min-h-screen flex items-center bg-gradient-to-b from-gray-900 to-black overflow-hidden">
       {/* Background Video with Fallback */}
-      <div className="absolute top-0 left-0 w-full h-full z-0">
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-full z-0"
+        style={{ y }}
+      >
         {isVideoLoaded ? (
           <video
             autoPlay
@@ -28,40 +41,47 @@ const About = () => {
         ) : (
           <div className="absolute top-0 left-0 w-full h-full bg-black/60" />
         )}
-      </div>
+      </motion.div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div 
+        className="container mx-auto px-4 relative z-10"
+        style={{ opacity, scale }}
+      >
         {/* Centered Text Column */}
         <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto text-center"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
         >
           <motion.h2 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
             className="text-4xl md:text-5xl font-bold text-white mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
           >
             Digital Innovation Pioneers
           </motion.h2>
           
           <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
             className="text-xl text-white mb-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
           >
             We specialize in creating cutting-edge digital solutions that transform businesses. 
             Our approach combines creative design with advanced technology to deliver exceptional user experiences.
           </motion.p>
           
           <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
             className="text-xl text-white mb-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
           >
             With a team of expert developers, designers, and strategists, we turn complex challenges 
             into elegant, effective digital products.
@@ -69,16 +89,17 @@ const About = () => {
           
           <motion.button
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            viewport={{ once: true }}
             className="bg-white text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-100 
                      transition-colors"
           >
             Explore Our Work
           </motion.button>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
