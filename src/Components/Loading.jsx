@@ -16,7 +16,7 @@ const LoadingEffect = () => {
 
     // Preload video
     const videoElement = document.createElement('video')
-    videoElement.src = '/public/videos/Loading.mp4'
+    videoElement.src = '/public/Loading.mp4'
     videoElement.onloadeddata = () => setIsVideoLoaded(true)
 
     return () => clearInterval(interval)
@@ -35,7 +35,7 @@ const LoadingEffect = () => {
             className="absolute w-full h-full object-cover opacity-30"
             poster="/images/loading-fallback.jpg"
           >
-            <source src="/public/videos/Loading.mp4" type="video/mp4" />
+            <source src="/public/Loading.mp4" type="video/mp4" />
           </video>
         ) : (
           <div className="absolute inset-0 bg-gray-900/60" />
