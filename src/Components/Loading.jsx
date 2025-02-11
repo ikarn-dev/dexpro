@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 const LoadingEffect = () => {
   const [loading, setLoading] = useState(0)
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -13,12 +14,36 @@ const LoadingEffect = () => {
       })
     }, 30)
 
+    // Preload video
+    const videoElement = document.createElement('video')
+    videoElement.src = '/public/videos/Loading.mp4'
+    videoElement.onloadeddata = () => setIsVideoLoaded(true)
+
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="relative flex items-center justify-center w-full h-screen bg-gray-900">
-      <div className="relative">
+    <div className="relative flex items-center justify-center w-full h-screen bg-gray-900 overflow-hidden">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        {isVideoLoaded ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute w-full h-full object-cover opacity-30"
+            poster="/images/loading-fallback.jpg"
+          >
+            <source src="/public/videos/Loading.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div className="absolute inset-0 bg-gray-900/60" />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
         <div className="relative">
           {/* Text Container */}
           <h1 className="text-8xl font-bold" style={{ WebkitTextStroke: '2px white' }}>
@@ -38,7 +63,7 @@ const LoadingEffect = () => {
       </div>
 
       {/* Loading Percentage */}
-      <div className="absolute bottom-10 right-10 text-6xl text-white font-semibold">
+      <div className="absolute bottom-10 right-10 text-6xl text-white font-semibold z-10">
         {loading}%
       </div>
     </div>
