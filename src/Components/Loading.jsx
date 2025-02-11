@@ -14,10 +14,14 @@ const LoadingEffect = () => {
       })
     }, 30)
 
-    // Preload video
+    // Preload video with correct path
     const videoElement = document.createElement('video')
-    videoElement.src = '/public/Loading.mp4'
+    videoElement.src = '/videos/Loading.mp4'
     videoElement.onloadeddata = () => setIsVideoLoaded(true)
+    videoElement.onerror = () => {
+      console.error('Video failed to load')
+      setIsVideoLoaded(false)
+    }
 
     return () => clearInterval(interval)
   }, [])
@@ -33,9 +37,8 @@ const LoadingEffect = () => {
             muted
             playsInline
             className="absolute w-full h-full object-cover opacity-30"
-            poster="/images/loading-fallback.jpg"
           >
-            <source src="/public/Loading.mp4" type="video/mp4" />
+            <source src="/videos/Loading.mp4" type="video/mp4" />
           </video>
         ) : (
           <div className="absolute inset-0 bg-gray-900/60" />
